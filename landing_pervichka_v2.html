@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Первичные документы — Контур.Экстерн</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --brand:         #FC7630;
+  --brand-hover:   #e5631c;
+  --brand-soft:    #FFF0E8;
+  --brand-dark:    #661429;
+
+  --color-bg:      #FFFFFF;
+  --color-surface: #F7F7F7;
+  --color-border:  rgba(0,0,0,0.08);
+  --color-text:    #1A1A1A;
+  --color-muted:   #666666;
+  --color-faint:   #999999;
+  --color-success: #2D7A22;
+  --color-error:   #C62828;
+  --color-warn:    #FC7630;
+
+  --font-display:  'Manrope', 'Inter', sans-serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.2vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.3vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.2vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.6vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1vw,   2.25rem);
+  --text-2xl:  clamp(2rem,     1.3rem  + 2vw,   3.25rem);
+  --text-3xl:  clamp(2.5rem,   1rem    + 4vw,   4.5rem);
+
+  --space-1: 0.25rem; --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;    --space-6: 1.5rem;  --space-8: 2rem;
+  --space-10:2.5rem;  --space-12:3rem;    --space-16:4rem;
+  --space-20:5rem;    --space-24:6rem;
+
+  --radius-sm: 0.375rem; --radius-md: 0.5rem;
+  --radius-lg: 0.875rem; --radius-xl: 1.25rem;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.04);
+
+  --content-narrow: 640px;
+  --content-default: 960px;
+  --content-wide: 1200px;
+  --transition: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── BASE ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.65; min-height: 100dvh; }
+img { display: block; max-width: 100%; height: auto; }
+a, button { transition: color var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition); }
+h1,h2,h3,h4 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; }
+p, li { text-wrap: pretty; }
+
+/* ─── LAYOUT ─────────────────────────────────────────────── */
+.container { max-width: var(--content-wide); margin-inline: auto; padding-inline: var(--space-6); }
+.container--narrow { max-width: var(--content-narrow); }
+.container--default { max-width: var(--content-default); }
+
+/* ─── HEADER ─────────────────────────────────────────────── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  height: 64px;
+}
+.header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%; gap: var(--space-6);
+}
+.header__logo {
+  display: flex; align-items: center; gap: var(--space-2);
+  text-decoration: none; color: var(--color-text);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--text-base);
+  flex-shrink: 0;
+}
+.header__logo-mark {
+  width: 28px; height: 28px; flex-shrink: 0;
+}
+.header__logo span { color: var(--brand); }
+.header__nav { display: flex; align-items: center; gap: var(--space-6); }
+.header__nav a {
+  color: var(--color-muted); text-decoration: none;
+  font-size: var(--text-sm); font-weight: 500;
+}
+.header__nav a:hover { color: var(--color-text); }
+.header__cta {
+  background: var(--brand); color: #fff;
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-sm); font-size: var(--text-sm);
+  font-weight: 600; text-decoration: none; border: none; cursor: pointer;
+  white-space: nowrap;
+}
+.header__cta:hover { background: var(--brand-hover); }
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.hero {
+  padding: clamp(var(--space-12), 7vw, var(--space-24)) 0 clamp(var(--space-10), 6vw, var(--space-20));
+  overflow: hidden;
+}
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+.hero__tag {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--brand-soft); color: var(--brand);
+  font-size: var(--text-xs); font-weight: 600;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.03em; text-transform: uppercase;
+  margin-bottom: var(--space-6);
+}
+.hero__tag svg { width: 14px; height: 14px; }
+.hero h1 {
+  font-size: var(--text-3xl); font-weight: 800;
+  margin-bottom: var(--space-6); color: var(--color-text);
+}
+.hero h1 em { color: var(--brand); font-style: normal; }
+.hero__sub {
+  font-size: var(--text-lg); color: var(--color-muted);
+  line-height: 1.6; margin-bottom: var(--space-8);
+  max-width: 52ch;
+}
+.hero__buttons { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+/* ─── HERO CARD ──────────────────────────────────────────── */
+.hero__card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+.hero__card-header {
+  background: var(--brand); color: #fff;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-sm); font-weight: 600;
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.hero__card-header svg { width: 16px; height: 16px; opacity: 0.8; }
+.hero__card-body { padding: var(--space-4); }
+.doc-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+  background: var(--color-surface);
+}
+.doc-item:last-child { margin-bottom: 0; }
+.doc-item__left { display: flex; align-items: center; gap: var(--space-3); }
+.doc-item__dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.dot--red   { background: var(--color-error); }
+.dot--green { background: var(--color-success); }
+.dot--orange{ background: var(--color-warn); }
+.doc-item__name { font-size: var(--text-sm); font-weight: 500; }
+.doc-item__org  { font-size: var(--text-xs); color: var(--color-faint); margin-top: 2px; }
+.doc-badge {
+  font-size: var(--text-xs); font-weight: 600;
+  padding: 3px var(--space-2); border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.badge--red    { background: #FFEBEE; color: var(--color-error); }
+.badge--green  { background: #E8F5E9; color: var(--color-success); }
+.badge--orange { background: var(--brand-soft); color: var(--brand); }
+.hero__card-footer {
+  margin: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--brand); color: #fff;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm); font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hero__card-footer svg { width: 16px; height: 16px; }
+
+/* ─── BTNS ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-sm); font-size: var(--text-sm);
+  font-weight: 600; text-decoration: none; border: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+}
+.btn--primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+.btn--primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.btn--outline { background: transparent; color: var(--color-text); border-color: rgba(0,0,0,0.15); }
+.btn--outline:hover { border-color: var(--brand); color: var(--brand); }
+.btn--lg { padding: var(--space-4) var(--space-8); font-size: var(--text-base); }
+.btn--white { background: #fff; color: var(--brand); border-color: #fff; }
+.btn--white:hover { background: var(--brand-soft); }
+.btn--white-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+.btn--white-outline:hover { border-color: #fff; }
+
+/* ─── SECTION SHARED ─────────────────────────────────────── */
+.section { padding-block: clamp(var(--space-12), 7vw, var(--space-24)); }
+.section--gray { background: var(--color-surface); }
+.section__label {
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--brand);
+  margin-bottom: var(--space-4);
+}
+.section__title {
+  font-size: var(--text-2xl); font-weight: 800;
+  margin-bottom: var(--space-4); color: var(--color-text);
+}
+.section__sub {
+  font-size: var(--text-lg); color: var(--color-muted);
+  line-height: 1.65; max-width: 60ch; margin-bottom: var(--space-10);
+}
+
+/* ─── PAIN SECTION ───────────────────────────────────────── */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+.pain-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.pain-card--accent {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand), var(--shadow-sm);
+}
+.pain-card__num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--brand-soft); color: var(--brand);
+  font-weight: 800; font-size: var(--text-sm);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-4); flex-shrink: 0;
+}
+.pain-card--accent .pain-card__num { background: var(--brand); color: #fff; }
+.pain-card h3 { font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-2); }
+.pain-card p  { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.6; }
+.pain-card--accent h3 { color: var(--brand); }
+
+/* ─── FEATURES ───────────────────────────────────────────── */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+  padding-block: var(--space-10);
+  border-bottom: 1px solid var(--color-border);
+}
+.feature-row:last-child { border-bottom: none; }
+.feature-row--reverse { direction: rtl; }
+.feature-row--reverse > * { direction: ltr; }
+.feature__label {
+  font-size: var(--text-xs); font-weight: 700; color: var(--brand);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+.feature__title { font-size: var(--text-xl); font-weight: 800; margin-bottom: var(--space-4); }
+.feature__body  { font-size: var(--text-base); color: var(--color-muted); line-height: 1.7; }
+
+/* Mock UI widgets */
+.mock-widget {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+.mock-widget__header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  display: flex; align-items: center; gap: var(--space-3);
+  background: var(--color-surface);
+}
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mock-dot--r { background: #FF5F57; }
+.mock-dot--y { background: #FEBC2E; }
+.mock-dot--g { background: #28C840; }
+.mock-widget__title { font-size: var(--text-xs); color: var(--color-faint); font-weight: 500; margin-left: auto; }
+.mock-widget__body { padding: var(--space-4); }
+.mock-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm); margin-bottom: var(--space-1);
+}
+.mock-row:hover { background: var(--color-surface); }
+.mock-row__left { display: flex; align-items: center; gap: var(--space-3); }
+.mock-row__icon { font-size: 16px; }
+.mock-row__text { font-size: var(--text-sm); font-weight: 500; color: var(--color-text); }
+.mock-row__sub  { font-size: var(--text-xs); color: var(--color-faint); }
+.mock-progress {
+  margin-top: var(--space-4); background: var(--color-surface);
+  border-radius: var(--radius-sm); padding: var(--space-3);
+}
+.mock-progress__label {
+  display: flex; justify-content: space-between;
+  font-size: var(--text-xs); color: var(--color-muted); margin-bottom: var(--space-2);
+}
+.mock-progress__bar { height: 6px; background: var(--color-border); border-radius: 99px; }
+.mock-progress__fill { height: 100%; border-radius: 99px; background: var(--brand); }
+
+.mock-inbox__item {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.mock-inbox__item:last-child { border-bottom: none; }
+.mock-inbox__src {
+  font-size: 18px; flex-shrink: 0; line-height: 1;
+  margin-top: 2px;
+}
+.mock-inbox__meta { flex: 1; min-width: 0; }
+.mock-inbox__from { font-size: var(--text-sm); font-weight: 600; margin-bottom: 2px; }
+.mock-inbox__desc { font-size: var(--text-xs); color: var(--color-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mock-inbox__status { flex-shrink: 0; }
+
+.mock-1c__row {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+}
+.mock-1c__row:last-child { border-bottom: none; }
+.mock-1c__icon { font-size: 18px; }
+.mock-1c__name { flex: 1; font-weight: 500; }
+.mock-1c__amount { color: var(--color-muted); font-size: var(--text-xs); }
+.mock-action {
+  margin: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--brand); color: #fff;
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm); font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+  cursor: pointer; border: none;
+}
+
+/* ─── PRICE ──────────────────────────────────────────────── */
+.price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+.price-card {
+  background: #fff; border-radius: var(--radius-xl);
+  padding: var(--space-8); border: 2px solid var(--color-border);
+  display: flex; flex-direction: column; gap: var(--space-4);
+}
+.price-card--featured { border-color: var(--brand); box-shadow: var(--shadow-md); }
+.price-card__name { font-size: var(--text-sm); font-weight: 700; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.price-card--featured .price-card__name { color: var(--brand); }
+.price-card__amount { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; }
+.price-card__period { font-size: var(--text-sm); color: var(--color-faint); margin-top: -var(--space-2); }
+.price-card__features { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+.price-card__features li {
+  display: flex; align-items: flex-start; gap: var(--space-2);
+  font-size: var(--text-sm); color: var(--color-muted);
+}
+.price-card__features li::before { content: "✓"; color: var(--brand); font-weight: 700; flex-shrink: 0; }
+.price-card .btn { width: 100%; justify-content: center; }
+
+/* ─── CTA SECTION ────────────────────────────────────────── */
+.cta-section {
+  background: var(--brand); padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+}
+.cta-section .container { text-align: center; }
+.cta-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #fff; margin-bottom: var(--space-4); }
+.cta-section p  { font-size: var(--text-lg); color: rgba(255,255,255,0.85); max-width: 52ch; margin-inline: auto; margin-bottom: var(--space-8); }
+.cta-section .hero__buttons { justify-content: center; }
+
+/* ─── REQUIREMENTS ───────────────────────────────────────── */
+.req-card {
+  background: var(--color-surface); border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-8);
+}
+.req-col h4 { font-size: var(--text-xs); font-weight: 700; color: var(--color-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-3); }
+.req-col p  { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.7; }
+.req-col a  { color: var(--brand); }
+.req-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+.req-actions .btn { justify-content: center; }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  background: #1A1A1A; color: #999;
+  padding: var(--space-8) 0;
+  font-size: var(--text-xs);
+}
+.footer__inner { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+.footer a { color: #777; text-decoration: none; }
+.footer a:hover { color: #ccc; }
+.footer__links { display: flex; gap: var(--space-6); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero__inner, .feature-row, .req-card { grid-template-columns: 1fr; }
+  .feature-row--reverse { direction: ltr; }
+  .pain-grid { grid-template-columns: 1fr 1fr; }
+  .price-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .pain-grid { grid-template-columns: 1fr; }
+  .header__nav { display: none; }
+  .hero__buttons .btn--lg { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="#" class="header__logo">
+        <svg class="header__logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Контур.Экстерн">
+          <rect width="28" height="28" rx="6" fill="#FC7630"/>
+          <path d="M8 10h5.5a3.5 3.5 0 0 1 0 7H8V10Z" fill="white"/>
+          <path d="M17 14h3" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="21" cy="18" r="2.5" fill="white"/>
+        </svg>
+        Контур.<span>Экстерн</span>
+      </a>
+      <nav class="header__nav">
+        <a href="#how">Как работает</a>
+        <a href="#price">Тарифы</a>
+        <a href="#req">Требования</a>
+      </nav>
+      <a href="#cta" class="header__cta">Попробовать</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div>
+        <div class="hero__tag">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M3.05 3.05l1.41 1.41M9.54 9.54l1.41 1.41M3.05 10.95l1.41-1.41M9.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Модуль «Первичные документы»
+        </div>
+        <h1>Узнайте о&nbsp;недостающих документах <em>ещё до&nbsp;требования ФНС</em></h1>
+        <p class="hero__sub">Только что собирали первичку к требованию — и знаете, сколько это стоит времени. Модуль покажет все пробелы заранее и закроет их автоматически.</p>
+        <div class="hero__buttons">
+          <a href="#download" class="btn btn--primary btn--lg">Скачать модуль</a>
+          <a href="#how" class="btn btn--outline btn--lg">Как это работает</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero__card">
+          <div class="hero__card-header">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 3h12v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3Z" stroke="white" stroke-width="1.5"/><path d="M5 3V2M11 3V2" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Оплаты без закрывающих документов
+          </div>
+          <div class="hero__card-body">
+            <div class="doc-item">
+              <div class="doc-item__left">
+                <span class="doc-item__dot dot--red"></span>
+                <div>
+                  <div class="doc-item__name">ООО «Альфа»</div>
+                  <div class="doc-item__org">84 000 ₽ · оплата 12.06.2026</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--red">Нет акта</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item__left">
+                <span class="doc-item__dot dot--red"></span>
+                <div>
+                  <div class="doc-item__name">ИП Смирнов А.В.</div>
+                  <div class="doc-item__org">31 500 ₽ · оплата 10.06.2026</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--red">Нет УПД</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item__left">
+                <span class="doc-item__dot dot--orange"></span>
+                <div>
+                  <div class="doc-item__name">ООО «Дельта»</div>
+                  <div class="doc-item__org">47 000 ₽ · оплата 09.06.2026</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--orange">Запрос отправлен</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item__left">
+                <span class="doc-item__dot dot--green"></span>
+                <div>
+                  <div class="doc-item__name">ООО «Бета»</div>
+                  <div class="doc-item__org">120 000 ₽ · оплата 08.06.2026</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--green">Загружен в 1С</span>
+            </div>
+          </div>
+          <div class="hero__card-footer">
+            <span>Отправить запросы 2 контрагентам?</span>
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="section section--gray">
+  <div class="container">
+    <div class="section__label">Знакомо?</div>
+    <h2 class="section__title">Так выглядит подготовка<br>к требованию сейчас</h2>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-card__num">1</div>
+        <h3>Пришло требование ФНС</h3>
+        <p>Срочно нужны документы по всем оплатам за период. Впереди 2–3 дня ручной работы.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card__num">2</div>
+        <h3>Обзваниваете контрагентов</h3>
+        <p>Кто-то не отвечает, кто-то шлёт в мессенджере фото в плохом качестве.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card__num">3</div>
+        <h3>Вручную грузите в 1С</h3>
+        <p>Каждый документ — вручную: распознать, проверить, сопоставить, провести.</p>
+      </div>
+      <div class="pain-card pain-card--accent">
+        <div class="pain-card__num">→</div>
+        <h3>С модулем — иначе</h3>
+        <p>Видите пробелы заранее, модуль сам собирает документы и готовит черновики в 1С.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section__label">Как работает</div>
+    <h2 class="section__title">Три шага от оплаты до проводки</h2>
+
+    <!-- Feature 1 -->
+    <div class="feature-row">
+      <div>
+        <div class="feature__label">Шаг 1</div>
+        <h3 class="feature__title">Покажет все оплаты без закрывающих документов</h3>
+        <p class="feature__body">Модуль формирует список оплат, по которым в 1С ещё нет первичных документов. Вы видите контрагента, сумму и что именно нужно — акт, УПД или счёт-фактура. Все запросы можно отправить в один клик прямо из списка — до того, как придёт требование ФНС.</p>
+      </div>
+      <div>
+        <div class="mock-widget">
+          <div class="mock-widget__header">
+            <span class="mock-dot mock-dot--r"></span>
+            <span class="mock-dot mock-dot--y"></span>
+            <span class="mock-dot mock-dot--g"></span>
+            <span class="mock-widget__title">Список долгов по документам</span>
+          </div>
+          <div class="mock-widget__body">
+            <div class="mock-row">
+              <div class="mock-row__left">
+                <span class="mock-row__icon">🔴</span>
+                <div>
+                  <div class="mock-row__text">ООО «Альфа» — 84 000 ₽</div>
+                  <div class="mock-row__sub">Нет акта · оплата 12.06</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--red">Запросить</span>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__left">
+                <span class="mock-row__icon">🔴</span>
+                <div>
+                  <div class="mock-row__text">ИП Смирнов — 31 500 ₽</div>
+                  <div class="mock-row__sub">Нет УПД · оплата 10.06</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--red">Запросить</span>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__left">
+                <span class="mock-row__icon">🟡</span>
+                <div>
+                  <div class="mock-row__text">ООО «Дельта» — 47 000 ₽</div>
+                  <div class="mock-row__sub">Запрос отправлен 14.06</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--orange">Ожидание</span>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__left">
+                <span class="mock-row__icon">🟢</span>
+                <div>
+                  <div class="mock-row__text">ООО «Бета» — 120 000 ₽</div>
+                  <div class="mock-row__sub">Загружен в 1С</div>
+                </div>
+              </div>
+              <span class="doc-badge badge--green">Закрыто</span>
+            </div>
+            <div class="mock-progress">
+              <div class="mock-progress__label"><span>Закрыто документами</span><span>1 из 4</span></div>
+              <div class="mock-progress__bar"><div class="mock-progress__fill" style="width:25%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="feature-row feature-row--reverse">
+      <div>
+        <div class="feature__label">Шаг 2</div>
+        <h3 class="feature__title">Сам найдёт документы — в почте, мессенджерах, сканах</h3>
+        <p class="feature__body">Контрагенты присылают документы как им удобно — на почту, в WhatsApp или Telegram, фото или PDF. Модуль сам находит их, распознаёт, классифицирует (УПД, акт, накладная, счёт-фактура) и сопоставляет с нужной оплатой. Вам не нужно ничего искать вручную.</p>
+      </div>
+      <div>
+        <div class="mock-widget">
+          <div class="mock-widget__header">
+            <span class="mock-dot mock-dot--r"></span>
+            <span class="mock-dot mock-dot--y"></span>
+            <span class="mock-dot mock-dot--g"></span>
+            <span class="mock-widget__title">Входящие документы</span>
+          </div>
+          <div class="mock-widget__body" style="padding:0">
+            <div class="mock-inbox__item">
+              <div class="mock-inbox__src">📧</div>
+              <div class="mock-inbox__meta">
+                <div class="mock-inbox__from">Почта · alpha@contragent.ru</div>
+                <div class="mock-inbox__desc">Акт № 47 от 12.06.2026 · 84 000 ₽</div>
+              </div>
+              <span class="doc-badge badge--green">Распознан</span>
+            </div>
+            <div class="mock-inbox__item">
+              <div class="mock-inbox__src">💬</div>
+              <div class="mock-inbox__meta">
+                <div class="mock-inbox__from">Telegram · @supplier_bot</div>
+                <div class="mock-inbox__desc">Скан УПД · фото 2.1 МБ</div>
+              </div>
+              <span class="doc-badge badge--orange">Обработка</span>
+            </div>
+            <div class="mock-inbox__item">
+              <div class="mock-inbox__src">📱</div>
+              <div class="mock-inbox__meta">
+                <div class="mock-inbox__from">WhatsApp</div>
+                <div class="mock-inbox__desc">Счёт-фактура № 22 от 10.06.2026</div>
+              </div>
+              <span class="doc-badge badge--green">Загружен</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="feature-row">
+      <div>
+        <div class="feature__label">Шаг 3</div>
+        <h3 class="feature__title">Готовит черновики в 1С — вам остаётся только провести</h3>
+        <p class="feature__body">Модуль распознаёт УПД, акты, накладные и счета-фактуры в любых форматах — даже фото в плохом качестве. Данные автоматически разносятся по нужным полям 1С, номенклатура поставщика сопоставляется с вашей базой, новые позиции добавляются в один клик. Оригинал скана навсегда прикрепляется к документу.</p>
+      </div>
+      <div>
+        <div class="mock-widget">
+          <div class="mock-widget__header">
+            <span class="mock-dot mock-dot--r"></span>
+            <span class="mock-dot mock-dot--y"></span>
+            <span class="mock-dot mock-dot--g"></span>
+            <span class="mock-widget__title">Черновики в 1С:Бухгалтерия</span>
+          </div>
+          <div class="mock-widget__body" style="padding:0">
+            <div class="mock-1c__row">
+              <span class="mock-1c__icon">📄</span>
+              <div>
+                <div class="mock-1c__name">Акт № 47 — ООО «Альфа»</div>
+                <div class="mock-1c__amount">84 000 ₽ · 12.06.2026</div>
+              </div>
+              <span class="doc-badge badge--orange">Черновик</span>
+            </div>
+            <div class="mock-1c__row">
+              <span class="mock-1c__icon">📄</span>
+              <div>
+                <div class="mock-1c__name">УПД № 31 — ИП Смирнов</div>
+                <div class="mock-1c__amount">31 500 ₽ · 10.06.2026</div>
+              </div>
+              <span class="doc-badge badge--orange">Черновик</span>
+            </div>
+            <div class="mock-1c__row">
+              <span class="mock-1c__icon">✅</span>
+              <div>
+                <div class="mock-1c__name">Счёт-фактура № 22 — ООО «Бета»</div>
+                <div class="mock-1c__amount">120 000 ₽ · 08.06.2026</div>
+              </div>
+              <span class="doc-badge badge--green">Проведён</span>
+            </div>
+          </div>
+          <button class="mock-action">Провести все черновики (2)</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRICE -->
+<section class="section section--gray" id="price">
+  <div class="container">
+    <div class="section__label">Тарифы</div>
+    <h2 class="section__title">Цена не зависит от объёма</h2>
+    <p class="section__sub">Работайте с любым количеством документов и компаний без лимитов и доплат.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-card__name">До 50 организаций</div>
+        <div>
+          <div class="price-card__amount">24 000 ₽</div>
+          <div class="price-card__period">в год</div>
+        </div>
+        <ul class="price-card__features">
+          <li>Неограниченное количество документов</li>
+          <li>Все источники: почта, мессенджеры, сканы</li>
+          <li>Автоматическая загрузка в 1С</li>
+          <li>Техническая поддержка</li>
+        </ul>
+        <a href="#download" class="btn btn--outline">Скачать и попробовать</a>
+      </div>
+      <div class="price-card price-card--featured">
+        <div class="price-card__name">От 50 организаций</div>
+        <div>
+          <div class="price-card__amount">36 000 ₽</div>
+          <div class="price-card__period">в год</div>
+        </div>
+        <ul class="price-card__features">
+          <li>Всё из тарифа «до 50 организаций»</li>
+          <li>Без ограничений по числу компаний</li>
+          <li>Приоритетная поддержка</li>
+          <li>Помощь с установкой и настройкой</li>
+        </ul>
+        <a href="#download" class="btn btn--primary">Скачать и попробовать</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <h2>Следующее требование встретьте подготовленными</h2>
+    <p>Скачайте модуль и уже сегодня увидите, каких документов не хватает — до того, как придёт требование.</p>
+    <div class="hero__buttons">
+      <a href="#download" class="btn btn--white btn--lg">Скачать модуль бесплатно</a>
+      <a href="#req" class="btn btn--white-outline btn--lg">Инструкция по установке</a>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="section" id="req">
+  <div class="container">
+    <div class="section__label">Установка</div>
+    <h2 class="section__title" style="margin-bottom:var(--space-8)">Проверьте, подходит ли модуль</h2>
+    <div class="req-card" id="download">
+      <div class="req-col">
+        <h4>Лицензия 1С</h4>
+        <p>1С:Бухгалтерия 8.3<br>Версии ПРОФ, КОРП или Базовая<br><br>Только локальный сервер или ПК.<br>Облачная 1С временно не поддерживается.<br><br><a href="#">Как узнать свою версию →</a></p>
+      </div>
+      <div class="req-col">
+        <h4>Установка</h4>
+        <p>Установка занимает 15–20 минут.<br>Подробная инструкция с&nbsp;каждым шагом прилагается.<br><br>Если не получается — оставьте контакты, специалист поможет настроить бесплатно.</p>
+      </div>
+      <div class="req-col">
+        <div class="req-actions">
+          <a href="#" class="btn btn--primary">Бухгалтерия ПРОФ / КОРП</a>
+          <a href="#" class="btn btn--outline">Бухгалтерия Базовая</a>
+          <a href="#" class="btn btn--outline">Скачать инструкцию (PDF)</a>
+          <p style="font-size:var(--text-xs); color:var(--color-faint); text-align:center; margin-top:var(--space-2)">
+            Нужна помощь? <a href="#" style="color:var(--brand)">Оставьте заявку</a> — специалист свяжется с&nbsp;вами
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span>© 1988–2026 СКБ Контур</span>
+      <div class="footer__links">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Оферта</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
