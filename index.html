@@ -11,7 +11,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --orange: #f60;
-      --orange-hover: #e05500;
       --orange-light: #fff5ee;
       --orange-border: rgba(255,102,0,0.2);
       --dark: #222;
@@ -20,29 +19,17 @@
       --border: rgba(0,0,0,0.09);
     }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: #fff;
-      color: var(--dark);
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #fff; color: var(--dark); -webkit-font-smoothing: antialiased; }
 
+    /* ЭКРАН ЗАГРУЗКИ */
     #screen-download {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 24px;
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    #screen-download.hidden {
-      opacity: 0;
-      transform: translateY(-16px);
-      pointer-events: none;
-    }
+    #screen-download.hidden { opacity: 0; transform: translateY(-16px); pointer-events: none; }
 
-    .dl-card { max-width: 440px; width: 100%; text-align: center; }
+    .dl-card { max-width: 400px; width: 100%; text-align: center; }
     .dl-logo { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 44px; }
     .dl-logo span { color: var(--orange); }
 
@@ -60,29 +47,25 @@
     @keyframes ring { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.35); opacity: 0; } }
 
     .dl-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
-    .dl-sub { font-size: 15px; color: var(--gray); line-height: 1.6; margin-bottom: 28px; }
+    .dl-sub { font-size: 15px; color: var(--gray); line-height: 1.6; margin-bottom: 32px; }
 
-    .progress-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; text-align: left; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--gray); margin-bottom: 6px; }
-    .progress-label strong { color: var(--dark); font-weight: 600; }
-    .progress-wrap { height: 4px; background: var(--light); border-radius: 100px; overflow: hidden; }
-    .progress-bar { height: 100%; width: 0%; background: var(--orange); border-radius: 100px; transition: width 0.3s ease; }
-
-    .dl-status { font-size: 13px; font-weight: 600; color: var(--orange); min-height: 20px; text-align: center; }
-
-    .dl-manual {
-      margin-top: 28px; padding: 14px 18px;
-      background: var(--light); border-radius: 10px; border: 1px solid var(--border);
-      font-size: 13px; color: var(--gray); line-height: 1.7; display: none; text-align: left;
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 13px; margin-bottom: 8px; text-align: left;
     }
+    .progress-label strong { color: var(--dark); font-weight: 600; }
+    .progress-label span { color: var(--gray); }
+    .progress-wrap { height: 5px; background: var(--light); border-radius: 100px; overflow: hidden; margin-bottom: 20px; }
+    .progress-bar { height: 100%; width: 0%; background: var(--orange); border-radius: 100px; transition: width 0.4s ease; }
+
+    .dl-status { font-size: 13px; font-weight: 600; color: var(--orange); min-height: 20px; }
+
+    .dl-manual { margin-top: 28px; padding: 14px 18px; background: var(--light); border-radius: 10px; border: 1px solid var(--border); font-size: 13px; color: var(--gray); line-height: 1.7; display: none; text-align: left; }
     .dl-manual.visible { display: block; }
     .dl-manual a { color: var(--orange); font-weight: 600; text-decoration: underline; display: block; }
 
     /* ЛЕНДИНГ */
-    #screen-landing {
-      display: none; opacity: 0; transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
+    #screen-landing { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     #screen-landing.visible { display: block; }
     #screen-landing.shown { opacity: 1; transform: translateY(0); }
 
@@ -93,14 +76,14 @@
     .logo__wordmark span { color: var(--orange); }
     .logo__sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
     .logo__product { font-size: 14px; color: var(--gray); }
-    .header__btn { padding: 8px 18px; border-radius: 100px; background: var(--orange); color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; transition: filter 0.15s; white-space: nowrap; }
+    .header__btn { padding: 8px 18px; border-radius: 100px; background: var(--orange); color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; transition: filter 0.15s; }
     .header__btn:hover { filter: brightness(1.1); }
 
     .hero { padding: 64px 32px 52px; text-align: center; max-width: 720px; margin: 0 auto; }
     .hero__badge { display: inline-flex; align-items: center; gap: 7px; background: var(--orange-light); color: var(--orange); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; border: 1px solid var(--orange-border); }
     .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); animation: blink 2s ease-in-out infinite; }
     @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
-    .hero__title { font-size: clamp(28px, 4vw, 42px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 16px; }
+    .hero__title { font-size: clamp(28px,4vw,42px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 16px; }
     .hero__title em { font-style: normal; color: var(--orange); }
     .hero__sub { font-size: 16px; color: var(--gray); line-height: 1.65; max-width: 480px; margin: 0 auto; }
 
@@ -128,7 +111,6 @@
     .req-icon { width: 32px; height: 32px; margin-bottom: 14px; color: var(--orange); }
     .req-card__title { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
     .req-card__text { font-size: 13px; color: var(--gray); line-height: 1.55; }
-    .req-card__text a { color: var(--orange); text-decoration: underline; }
     .req-note { margin-top: 16px; padding: 16px 20px; background: var(--orange-light); border-radius: 10px; border: 1px solid var(--orange-border); font-size: 14px; line-height: 1.55; }
 
     .help-section { background: var(--dark); padding: 60px 32px; text-align: center; }
@@ -168,27 +150,18 @@
           <path d="M12 3v13M7 11l5 5 5-5"/><path d="M3 19h18"/>
         </svg>
       </div>
-      <h1 class="dl-title">Скачиваем файлы…</h1>
+      <h1 class="dl-title">Скачиваем модуль…</h1>
       <p class="dl-sub">Файлы загружаются автоматически.<br>Через секунду появится инструкция по установке.</p>
 
-      <div class="progress-list">
-        <div class="progress-item">
-          <div class="progress-label">
-            <strong>Бухгалтерия 3.0 ПРОФ или КОРП</strong>
-            <span id="label-1">0%</span>
-          </div>
-          <div class="progress-wrap"><div class="progress-bar" id="bar-1"></div></div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-label">
-            <strong>Бухгалтерия 3.0 Базовая</strong>
-            <span id="label-2">0%</span>
-          </div>
-          <div class="progress-wrap"><div class="progress-bar" id="bar-2"></div></div>
-        </div>
+      <div class="progress-label">
+        <strong>Модуль для 1С</strong>
+        <span id="pct">0%</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="bar"></div>
       </div>
 
-      <div class="dl-status" id="dl-status">Подготовка файлов…</div>
+      <div class="dl-status" id="dl-status">Подготовка…</div>
 
       <div class="dl-manual" id="dl-manual">
         Если скачивание не началось автоматически:<br>
@@ -220,13 +193,7 @@
 
     <section class="video-section">
       <div class="video-wrap">
-        <iframe
-          src="https://rutube.ru/play/embed/b4fe85a72d01989b62135566f8e22bce/"
-          allow="clipboard-write; autoplay"
-          allowfullscreen
-          title="Видеоинструкция по установке модуля Первичные документы в 1С"
-          loading="lazy">
-        </iframe>
+        <iframe src="https://rutube.ru/play/embed/b4fe85a72d01989b62135566f8e22bce/" allow="clipboard-write; autoplay" allowfullscreen title="Видеоинструкция по установке модуля Первичные документы в 1С" loading="lazy"></iframe>
       </div>
       <p class="video-caption">Видеоинструкция по установке модуля в 1С · ~5 минут</p>
     </section>
@@ -241,7 +208,7 @@
             <div class="step__num">1</div>
             <div>
               <div class="step__title">Найдите скачанные файлы</div>
-              <div class="step__text">Откройте папку «Загрузки» — там должны быть два файла с расширением .cfe. Не распаковывайте архивы.</div>
+              <div class="step__text">Откройте папку «Загрузки» — там два файла с расширением .cfe: один для ПРОФ/КОРП, другой для Базовой версии. Установите нужный. Не распаковывайте архивы.</div>
             </div>
           </div>
           <div class="step">
@@ -255,8 +222,8 @@
           <div class="step">
             <div class="step__num">3</div>
             <div>
-              <div class="step__title">Установите оба файла по очереди</div>
-              <div class="step__text">Сначала установите базовый модуль, затем модуль Первичные документы. После каждого 1С попросит перезапустить программу.</div>
+              <div class="step__title">Выберите и установите файл .cfe</div>
+              <div class="step__text">Укажите путь к скачанному файлу. 1С попросит перезапустить программу — согласитесь.</div>
             </div>
           </div>
           <div class="step">
@@ -277,32 +244,22 @@
         <p class="sec-sub">Убедитесь, что ваша система подходит для установки</p>
         <div class="req-grid">
           <div class="req-card">
-            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="5" width="26" height="18" rx="2.5"/><path d="M11 29h10M16 23v6"/>
-            </svg>
+            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="18" rx="2.5"/><path d="M11 29h10M16 23v6"/></svg>
             <div class="req-card__title">Локальная установка 1С</div>
             <div class="req-card__text">Версии ПРОФ, КОРП или Базовая. Облачная версия 1С временно не поддерживается.</div>
           </div>
           <div class="req-card">
-            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 3l11 5.5V18c0 5.5-4.5 10-11 13C5 28 1 23.5 1 18V8.5L16 3z"/><path d="M11 16.5l3 3 7-7"/>
-            </svg>
+            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l11 5.5V18c0 5.5-4.5 10-11 13C5 28 1 23.5 1 18V8.5L16 3z"/><path d="M11 16.5l3 3 7-7"/></svg>
             <div class="req-card__title">Конфигурация 1С</div>
-            <div class="req-card__text">Бухгалтерия предприятия 3.0 или выше. <a href="#">Как узнать версию?</a></div>
+            <div class="req-card__text">Бухгалтерия предприятия 3.0 или выше.</div>
           </div>
           <div class="req-card">
-            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="16" cy="10" r="5"/><path d="M6 27c0-5.523 4.477-10 10-10s10 4.477 10 10"/>
-            </svg>
+            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="10" r="5"/><path d="M6 27c0-5.523 4.477-10 10-10s10 4.477 10 10"/></svg>
             <div class="req-card__title">Права администратора</div>
             <div class="req-card__text">Для установки расширений необходимы права администратора в 1С.</div>
           </div>
           <div class="req-card">
-            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="7" width="26" height="18" rx="2.5"/><path d="M3 13h26"/>
-              <circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/>
-              <circle cx="13" cy="10" r="1.2" fill="currentColor" stroke="none"/>
-            </svg>
+            <svg class="req-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="26" height="18" rx="2.5"/><path d="M3 13h26"/><circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="13" cy="10" r="1.2" fill="currentColor" stroke="none"/></svg>
             <div class="req-card__title">Аккаунт Контур.Экстерн</div>
             <div class="req-card__text">Активная подписка на Контур.Экстерн — модуль входит в состав сервиса без доплат.</div>
           </div>
@@ -331,18 +288,20 @@
   <script>
     (function () {
       var FILES = [
-        { url: 'https://update.kontur.ru/1c/v1/pervichka/data-processor?id=pervichka&version=0.12.12&p=1210', name: 'pervichka.cfe', barId: 'bar-1', labelId: 'label-1' },
-        { url: 'https://update.kontur.ru/1c/v1/pervichka_base/data-processor?id=pervichka_base&version=0.12.12&p=1210', name: 'pervichka_base.cfe', barId: 'bar-2', labelId: 'label-2' }
+        { url: 'https://update.kontur.ru/1c/v1/pervichka/data-processor?id=pervichka&version=0.12.12&p=1210', name: 'pervichka.cfe' },
+        { url: 'https://update.kontur.ru/1c/v1/pervichka_base/data-processor?id=pervichka_base&version=0.12.12&p=1210', name: 'pervichka_base.cfe' }
       ];
 
-      var statusEl   = document.getElementById('dl-status');
-      var manualEl   = document.getElementById('dl-manual');
-      var screenDl   = document.getElementById('screen-download');
+      var bar      = document.getElementById('bar');
+      var pct      = document.getElementById('pct');
+      var statusEl = document.getElementById('dl-status');
+      var manualEl = document.getElementById('dl-manual');
+      var screenDl = document.getElementById('screen-download');
       var screenLand = document.getElementById('screen-landing');
 
-      function setBar(barId, labelId, pct) {
-        document.getElementById(barId).style.width = pct + '%';
-        document.getElementById(labelId).textContent = pct + '%';
+      function setBar(p) {
+        bar.style.width = p + '%';
+        pct.textContent = p + '%';
       }
 
       function triggerDownload(file) {
@@ -368,24 +327,19 @@
         }, 500);
       }
 
+      // Оба файла скачиваются в фоне с небольшой паузой
       triggerDownload(FILES[0]);
-      setTimeout(function () { triggerDownload(FILES[1]); }, 400);
+      setTimeout(function () { triggerDownload(FILES[1]); }, 600);
 
-      setTimeout(function () { setBar('bar-1','label-1',30); }, 300);
-      setTimeout(function () { setBar('bar-1','label-1',65); }, 900);
-      setTimeout(function () { setBar('bar-1','label-1',90); }, 1500);
-      setTimeout(function () { setBar('bar-1','label-1',100); document.getElementById('label-1').style.color='#2d8a4e'; }, 2200);
+      // Один плавный прогресс-бар
+      setTimeout(function () { setBar(20); statusEl.textContent = 'Загружаем файлы…'; }, 300);
+      setTimeout(function () { setBar(50); }, 900);
+      setTimeout(function () { setBar(75); statusEl.textContent = 'Почти готово…'; }, 1600);
+      setTimeout(function () { setBar(100); pct.style.color = '#2d8a4e'; bar.style.background = '#2d8a4e'; }, 2300);
+      setTimeout(function () { statusEl.textContent = '✓ Готово! Загружаем инструкцию…'; statusEl.style.color = '#2d8a4e'; }, 2500);
+      setTimeout(function () { showLanding(); }, 3100);
 
-      setTimeout(function () { setBar('bar-2','label-2',20); }, 600);
-      setTimeout(function () { setBar('bar-2','label-2',55); }, 1200);
-      setTimeout(function () { setBar('bar-2','label-2',85); }, 1800);
-      setTimeout(function () { setBar('bar-2','label-2',100); document.getElementById('label-2').style.color='#2d8a4e'; }, 2500);
-
-      setTimeout(function () { statusEl.textContent = 'Загружаем файлы…'; }, 500);
-      setTimeout(function () { statusEl.textContent = 'Почти готово…'; }, 1800);
-      setTimeout(function () { statusEl.textContent = '✓ Готово! Загружаем инструкцию по установке…'; statusEl.style.color = '#2d8a4e'; }, 2600);
-      setTimeout(function () { showLanding(); }, 3200);
-
+      // Ручные ссылки если браузер заблокировал
       setTimeout(function () { manualEl.classList.add('visible'); }, 6000);
     })();
   </script>
